@@ -1,4 +1,5 @@
 library oth_backdrop;
+
 import 'package:flutter/material.dart';
 
 class BackDrop extends StatefulWidget {
@@ -8,11 +9,11 @@ class BackDrop extends StatefulWidget {
   Widget base;
   Widget content;
   double height;
-  Key testKey;
+  Key backdropKey;
 
   BackDrop(this.callback, this.title, this.animatedIcon, this.base,
       this.content, this.height,
-      [this.testKey]);
+      [this.backdropKey]);
 
   @override
   State<StatefulWidget> createState() {
@@ -29,7 +30,7 @@ class _BackdropPageState extends State<BackDrop>
   @override
   void initState() {
     super.initState();
-    panelIsOut = true;
+    panelIsOut = false;
     _controller = AnimationController(
         duration: Duration(milliseconds: 500), value: 1.0, vsync: this);
   }
@@ -43,7 +44,7 @@ class _BackdropPageState extends State<BackDrop>
         title: _backDrop.title,
         leading: IconButton(
           onPressed: changePanelState,
-          key: _backDrop.testKey,
+          key: _backDrop.backdropKey,
           icon: AnimatedIcon(
             icon: _backDrop.animatedIcon,
             progress: _controller.view,
