@@ -2,7 +2,7 @@
 
 Turtle in flutter
 
-~> _Cross platform and super cool_ <~
+**_Cross platform and super cool_**
 
 __This is still WIP, so no guarantee this will work for you too!__
 
