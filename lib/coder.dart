@@ -30,15 +30,15 @@ class Coder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = 'Coder';
+    //final title = 'Coder';
 
     return MaterialApp(
-      title: title,
+      //title: title,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
+        //appBar: AppBar(
+        //title: Text(title),
+        //),
         body: ListView.builder(
           // Let the ListView know how many items it needs to build.
           itemCount: sentenceWidgetList.length,
@@ -59,19 +59,29 @@ class Coder extends StatelessWidget {
   }
 }
 
-generateWidgetList(){
-  var sentenceList = generateList();
+generateWidgetList() {
+  //if (sentenceList == null) return sentenceList = generateList();
+
+  sentenceList = generateList();
 
   //sentenceList.entries.map( (entry) => sentenceList(entry.key, entry.value)).toList();
 
   List<CodeLine> sentenceWidgetList = [];
 
-  sentenceWidgetList.add(BlueCategory("F", "10"));
+  for (int i = 0; i < sentenceList.length; i++) {
+    var currentEntry = sentenceList.elementAt(i);
+    sentenceWidgetList.add(BlueCategory(
+        (i + 1).toString() + ". Element: " + currentEntry[0].toString(),
+        currentEntry[1].toString()));
+  }
+  //var current = sentenceList[i];
+
+  //sentenceWidgetList.add(BlueCategory("F", "10"));
 
   // for (var key in sentenceList) {
-  //   sentenceWidgetList.add(BlueCategory(key.toString(), key.toString()));
+  //   sentenceWidgetList.add(BlueCategory(key.toString(), sentenceList[key].toString()));
   // }
-  sentenceList.forEach((k, v) => sentenceWidgetList.add(BlueCategory(k, v)));
+  //sentenceList.forEach((k, v) => sentenceWidgetList.add(BlueCategory(k, v)));
 
   return sentenceWidgetList;
 }

@@ -6,7 +6,6 @@ import 'package:backdrop/backdrop.dart';
 import 'package:drawing_animation/drawing_animation.dart';
 import 'package:turtle_on_fire/path-generator.dart';
 import 'package:turtle_on_fire/coder.dart';
-import 'package:turtle_on_fire/sentence.dart';
 
 GlobalKey back = GlobalKey();
 Size sizeBack;
@@ -22,7 +21,7 @@ class MyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-        title: 'Turtle on Fire',
+        title: 'Coder',
         debugShowCheckedModeBanner: false,
         home: BackdropScaffold(
           appBar: BackdropAppBar(
@@ -60,7 +59,7 @@ class _GameWidgetState extends State<GameWidget> with TickerProviderStateMixin {
 
 class MyPainter extends StatefulWidget {
   @override
-  // _MyPainter createState() => _MyPainter();
+  //_MyPainter createState() => _MyPainter();
   PathSentence createState() => PathSentence();
 }
 
@@ -91,10 +90,10 @@ class _MyPainter extends State<MyPainter> {
         (this.start)
             ? Expanded(
                 child: AnimatedDrawing.paths(
-                this.metatron,
+                  this.metatron,
                 paints: List<Paint>.generate(this.metatron.length, colorize),
                 run: this.run,
-                duration: new Duration(seconds: 4),
+                duration: new Duration(seconds: 15),
                 lineAnimation: LineAnimation.oneByOne,
                 animationCurve: Curves.linear,
                 onFinish: () => setState(() {

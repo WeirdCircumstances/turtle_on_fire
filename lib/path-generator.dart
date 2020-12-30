@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:drawing_animation/drawing_animation.dart';
 import 'dart:math';
 import 'package:vector_math/vector_math_64.dart' show radians;
-import 'package:turtle_on_fire/coder.dart';
+//import 'package:turtle_on_fire/coder.dart';
 
 import 'package:turtle_on_fire/main.dart';
 import 'package:turtle_on_fire/sentence.dart';
@@ -10,15 +10,18 @@ import 'package:turtle_on_fire/sentence.dart';
 Random rnd = new Random();
 
 class PathSentence extends State<MyPainter> {
-  bool start = false;
+  bool start = true;
   bool run = true;
-  List<Path> pattern;
+  List<Path> pattern = [];
+
   //SentenceGenerator sentenceList = new SentenceGenerator();
 
   //PathSentence(this.sentenceList);
 
   @override
   Widget build(BuildContext context) {
+    sentenceList = generateList();
+    this.pattern = createPattern();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () => setState(() {
@@ -50,7 +53,7 @@ class PathSentence extends State<MyPainter> {
     return Paint()
       ..style = PaintingStyle.stroke
       ..color = Colors.black
-      ..strokeWidth = 1
+      ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
   }
 
@@ -81,37 +84,36 @@ class PathSentence extends State<MyPainter> {
     //   sentenceList.add(BlueCategory("+", "45"));
     // }
 
-    var sentenceList = generateList();
+    //var sentenceList = generateList();
 
-    print(sentenceList.length);
-    // print(sentenceList.length);
+    //print("List length: " + sentenceList.length.toString());
+
+    //var counter = 0;
 
     double oldScale = 1;
 
-    //var pathString = sentenceList.map();
-
-    //sentenceList.forEach((key, value) {
-    for (var key in sentenceList) {
-      var current = key;
-    //});
-    //for (int i = 0; i < sentenceList.length; i++) {
-      //var current = sentenceList.elementAt(i);
+    for (int i = 0; i < sentenceList.length; i++) {
+      var current = sentenceList.elementAt(i);
       //var current = sentenceList[i];
 
-      //if (current.type == "F") {
-      if (current == "F") {
-        //double scale = double.parse(current[1]);
-        double scale = sentenceList[key];
+      //print("here!");
+
+      if (current[0] == "F") {
+        double scale = double.parse(current[1]);
         // double scale = double.parse(current);
 
-        // p2 = Offset(0, double.parse(current[1]) * newVector.dx);
+        //p2 = Offset(0, double.parse(current[1]) * newVector.dx);
         // p2 = p2.dx * newVector.dx;
         //
         // print("Before p1: " + i.toString() + " " + p1.toString());
         // print("Before p2: " + i.toString() + " " + p2.toString());
         //
-        // print("F:         " + scale.toString() + " " + counter.toString() + ". Linie");
-        // print("angle:     " + degrees(angle).toString());
+        // print("F:         " +
+        //     scale.toString() +
+        //     " " +
+        //     counter.toString() +
+        //     ". Linie");
+        // //print("angle:     " + degrees(angle).toString());
         // print("scale:     " + scale.toString());
         // print("oldScale:  " + oldScale.toString());
         // counter++;
@@ -176,8 +178,8 @@ class PathSentence extends State<MyPainter> {
 
     // if (paths.isEmpty) return paths..add(Path()..moveTo(0, 0));
 
-    print(paths.length);
-    print(paths);
+    //print("Path length: " + paths.length.toString());
+    //print(paths);
     return paths;
   }
 }
