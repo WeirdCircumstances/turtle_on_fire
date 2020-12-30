@@ -9,6 +9,8 @@ __This is still WIP, so no guarantee this will work for you too!__
 Idea is to use the Lindenmayer System to calculate sentences and from there patterns.  
 In the working prototype are those rules applied.
 
+![](https://github.com/WeirdCircumstances/turtle_on_fire/blob/master/turtle_on_fire.gif)
+
 ToDo:
 
 - get some sort of input working
