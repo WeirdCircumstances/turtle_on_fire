@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:drawing_animation/drawing_animation.dart';
 import 'dart:math';
 import 'package:vector_math/vector_math_64.dart' show radians;
-//import 'package:turtle_on_fire/coder.dart';
 
 import 'package:turtle_on_fire/main.dart';
 import 'package:turtle_on_fire/sentence.dart';
@@ -11,8 +10,14 @@ Random rnd = new Random();
 
 class PathSentence extends State<MyPainter> {
   bool start = true;
-  bool run = true;
-  List<Path> pattern = [];
+  bool run = false;
+  List<Path> pattern = [Path()..moveTo(0, 0)];
+
+  PaintingStyle lineStyle = PaintingStyle.stroke;
+  var colorStyle = Colors.black;
+  double widthStyle = 1;
+  StrokeCap capStyle = StrokeCap.round;
+  var styleList = List(100);
 
   //SentenceGenerator sentenceList = new SentenceGenerator();
 
@@ -20,13 +25,14 @@ class PathSentence extends State<MyPainter> {
 
   @override
   Widget build(BuildContext context) {
-    sentenceList = generateList();
-    this.pattern = createPattern();
+    //this.pattern = createPattern();
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () => setState(() {
+            oneTimeShot = true;
                 this.pattern = createPattern();
                 this.run = !this.run;
+                this.run ? null : sentenceList = generateList();
               }),
           child: Icon((this.run) ? Icons.stop : Icons.play_arrow)),
       body: Center(
@@ -34,10 +40,11 @@ class PathSentence extends State<MyPainter> {
         (this.start)
             ? Expanded(
                 child: AnimatedDrawing.paths(
-                this.pattern,
+                  this.pattern,
                 paints: List<Paint>.generate(this.pattern.length, colorize),
+                //paints: List<Paint>.generate(this.pattern.length, null),
                 run: this.run,
-                duration: new Duration(seconds: 10),
+                duration: new Duration(seconds: 60),
                 lineAnimation: LineAnimation.oneByOne,
                 animationCurve: Curves.linear,
                 onFinish: () => setState(() {
@@ -50,15 +57,28 @@ class PathSentence extends State<MyPainter> {
   }
 
   Paint colorize(int index) {
+    //var current = styleList.elementAt(index);
+    //if (current[0] == index) print("Current line" + index.toString());//colorStyle = current[1];
+
+    // print("++++++++++++++++++++++++++++++++++");
+    // print("Following must match:");
+    // //print("Current:                " + current.toString());
+    // print("Current StyleList Item: " + styleList.toString());
+    // print("Color:                  " + colorStyle.toString());
+    // print("All the Stuff:          " + styleList.toString());
+    // print("Current Index:          " + index.toString());
+
     return Paint()
-      ..style = PaintingStyle.stroke
-      ..color = Colors.black
-      ..strokeWidth = 2
-      ..strokeCap = StrokeCap.round;
+      ..style = lineStyle
+      ..color = colorStyle
+      ..strokeWidth = widthStyle
+      ..strokeCap = capStyle;
   }
 
   List<Path> createPattern() {
     List<Path> paths = List();
+
+    paths.clear();
 
     Offset p1 = Offset(0, 0);
     Offset p2 = Offset(0, 1);
@@ -66,6 +86,17 @@ class PathSentence extends State<MyPainter> {
     double angle = 0;
 
     Offset newVector;
+
+    // Offset scaleLeftTop = Offset(-100, -100);
+    // Offset scaleRightBottom = Offset(100, 100);
+    //
+    // paths
+    //   ..add(Path()
+    //     ..moveTo(scaleLeftTop.dx, scaleLeftTop.dy)
+    //     ..lineTo(scaleLeftTop.dx + 1, scaleLeftTop.dy + 1)
+    //     ..moveTo(scaleRightBottom.dx, scaleRightBottom.dy)
+    //     ..lineTo(scaleRightBottom.dx + 1, scaleRightBottom.dy + 1));
+
     // var sentenceList = List.generate(1, (i) => List(2), growable: true);
 
     // sentenceList.clear();
@@ -88,15 +119,15 @@ class PathSentence extends State<MyPainter> {
 
     //print("List length: " + sentenceList.length.toString());
 
-    //var counter = 0;
-
     double oldScale = 1;
 
     for (int i = 0; i < sentenceList.length; i++) {
       var current = sentenceList.elementAt(i);
-      //var current = sentenceList[i];
 
-      //print("here!");
+      if (current[0] == "paint") {
+        //styleList = readStylesFromList(styleList, i, current[1]);
+        //print(i.toString() + ".te Zeile");
+      }
 
       if (current[0] == "F") {
         double scale = double.parse(current[1]);
@@ -137,11 +168,10 @@ class PathSentence extends State<MyPainter> {
             ..lineTo(p2.dx, p2.dy));
 
         angle = 0;
-        // print("\n");
       }
 
       if (current[0] == "+") {
-      // if (current == "+") {
+        // if (current == "+") {
         angle = angle + radians(double.parse(current[1]));
 
         // print("new angle: " + degrees(angle).toString());
@@ -154,9 +184,7 @@ class PathSentence extends State<MyPainter> {
       // newVector = turnVector(newVector, angle);
       // newVector = translateVector(newVector, p2);
       //
-      //
       // oldScale = scale;
-      //
       //
       // paths
       //   ..add(Path()
@@ -171,11 +199,9 @@ class PathSentence extends State<MyPainter> {
       // // newVector = scaleVector(newVector, 1.1, false);
       // // angle = angle - radians(1);
       //
-      //
       // p1 = p2;
       // p2 = newVector;
     }
-
     // if (paths.isEmpty) return paths..add(Path()..moveTo(0, 0));
 
     //print("Path length: " + paths.length.toString());
@@ -218,4 +244,25 @@ translateVector(Offset turnedVector, Offset point) {
 scaleVector(Offset vector, double scale, bool up) {
   if (up) return vector * scale;
   return vector / scale;
+}
+
+// class StyleList {
+//   int index;
+//   var value;
+//
+//   StyleList(this.index, this.value);
+// }
+
+readStylesFromList(List styleList, int index, String colorStyle) {
+  /*
+  PaintingStyle lineStyle = PaintingStyle.stroke;
+  var colorStyle = Colors.black;
+  double widthStyle = 1;
+  StrokeCap capStyle = StrokeCap.round;*/
+
+  if (colorStyle == "black") styleList[index] = Color(0xff000000);
+  if (colorStyle == "yellow") styleList[index] = Color(0xffffeb3b);
+  if (colorStyle == "green") styleList[index] = Color(0xff4caf50);
+
+  return styleList;
 }

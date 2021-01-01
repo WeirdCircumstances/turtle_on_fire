@@ -2,11 +2,8 @@
 // Animated List
 
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import 'package:turtle_on_fire/sentence.dart';
-
-Random rnd = new Random();
 
 class Coder extends StatelessWidget {
 
