@@ -15,11 +15,27 @@ class PathSentence extends State<MyPainter> {
 
   PaintingStyle lineStyle = PaintingStyle.stroke;
   Color colorStyle;
-  double widthStyle = 30;
+  double widthStyle = 3;
   StrokeCap capStyle = StrokeCap.round;
   List<String> styleList = [];
   var style;
   var value;
+  var lengthOfAllVectors = 1.0;
+  int speed = 10;
+  double size = 100;
+
+  // static Matrix4 matrix4 = Matrix4(
+  //     1, 0, 0, 0,
+  //     0, 1, 0, 0,
+  //     0, 0, 1, 0,
+  //     0, 0, 0, 0.5
+  // );
+  // TransformationController controller = TransformationController(matrix4);
+// var paintedList;
+
+// bool firstRun = true;
+
+  //generateList() => paintedList = List<Paint>.generate(this.pattern.length, colorize);
 
   //SentenceGenerator sentenceList = new SentenceGenerator();
 
@@ -27,39 +43,80 @@ class PathSentence extends State<MyPainter> {
 
   @override
   Widget build(BuildContext context) {
-    //this.pattern = createPattern();
+    // if (firstRun) {
+    //   sentenceList = generateList();
+    //   firstRun = false;
+    // }
+
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => setState(() {
-            oneTimeShot = true;
-                this.pattern = createPattern();
-                this.run = !this.run;
-                this.run ? null : sentenceList = generateList();
-                print(styleList);
-                print("Length: " + styleList.length.toString());
-                print(sentenceList);
-                print(sentenceList.length);
-              }),
-          child: Icon((this.run) ? Icons.stop : Icons.play_arrow)),
-      body: Center(
-          child: Column(children: <Widget>[
-        (this.start)
-            ? Expanded(
-                child: AnimatedDrawing.paths(
-                  this.pattern,
-                paints: List<Paint>.generate(this.pattern.length, colorize),
-                run: this.run,
-                duration: new Duration(milliseconds: this.pattern.length * 100),
-                lineAnimation: LineAnimation.oneByOne,
-                //allAtOnce
-                animationCurve: Curves.linear,
-                onFinish: () => setState(() {
-                  this.run = false;
+        floatingActionButton: FloatingActionButton(
+            onPressed: () => setState(() {
+                  this.run = !this.run;
+                  oneTimeShot = true;
+                  if (this.run) {
+                    sentenceList = generateList();
+                    this.pattern = createPattern();
+                    iteration++;
+                    speed += 10;
+                  }
+                  //sentenceList = generateList();
+                  //print(styleList);
+                  //print("Length: " + styleList.length.toString());
+                  //print(sentenceList);
+                  print(sentenceList.length);
+                  //print(iteration);
+                  //paintedList = List<Paint>.generate(
+                  //    this.pattern.length, colorize);
                 }),
-              ))
-            : Container(),
-      ])),
-    );
+            child: Icon((this.run) ? Icons.stop : Icons.play_arrow)),
+        body: Center(
+          child: InteractiveViewer(
+              minScale: 0.0001,
+              maxScale: 1000,
+              //transformationController: controller,
+              child: Transform(
+                  transform: Matrix4(
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0,
+                    0,
+                    0,
+                    1,
+                  ),
+                  alignment: FractionalOffset.center,
+                  child: Column(children: <Widget>[
+                    (this.start)
+                        ? Expanded(
+                            child: AnimatedDrawing.paths(
+                            this.pattern,
+                            paints: List<Paint>.generate(
+                                this.pattern.length, colorize),
+                            run: this.run,
+                            duration: new Duration(
+                                milliseconds:
+                                    (lengthOfAllVectors / speed).round() * 10),
+                            lineAnimation: LineAnimation.oneByOne,
+                            //allAtOnce
+                            animationCurve: Curves.linear,
+                            onFinish: () => setState(() {
+                              this.run = false;
+                            }),
+                            // width: size,
+                            //height: size,
+                          ))
+                        : Container(),
+                  ]))),
+        ));
   }
 
   Paint colorize(int index) {
@@ -84,26 +141,27 @@ class PathSentence extends State<MyPainter> {
 
     paths.clear();
     styleList.clear();
+    lengthOfAllVectors = 0;
 
     Offset p1 = Offset(0, 0);
     Offset p2 = Offset(0, 1);
 
-    double angle = 0;
+    double angle = radians(0);
 
     Offset newVector;
 
-    Offset scaleLeftTop = Offset(-100, -100);
-    Offset scaleRightBottom = Offset(100, 100);
-
-    if (false) {
-      styleList.add("white");
-      paths
-        ..add(Path()
-          ..moveTo(scaleLeftTop.dx, scaleLeftTop.dy)
-          ..lineTo(scaleLeftTop.dx + 1, scaleLeftTop.dy + 1)
-          ..moveTo(scaleRightBottom.dx, scaleRightBottom.dy)
-          ..lineTo(scaleRightBottom.dx + 1, scaleRightBottom.dy + 1));
-    }
+    // Offset scaleLeftTop = Offset(-100, -100);
+    // Offset scaleRightBottom = Offset(100, 100);
+    //
+    // if (false) {
+    //   styleList.add("white");
+    //   paths
+    //     ..add(Path()
+    //       ..moveTo(scaleLeftTop.dx, scaleLeftTop.dy)
+    //       ..lineTo(scaleLeftTop.dx + 1, scaleLeftTop.dy + 1)
+    //       ..moveTo(scaleRightBottom.dx, scaleRightBottom.dy)
+    //       ..lineTo(scaleRightBottom.dx + 1, scaleRightBottom.dy + 1));
+    // }
 
     double oldScale = 1;
 
@@ -118,6 +176,9 @@ class PathSentence extends State<MyPainter> {
 
       if (current[0] == "F") {
         double scale = double.parse(current[1]);
+
+        lengthOfAllVectors += scale;
+
         // double scale = double.parse(current);
         //count++;
         //styleList = readStylesFromList(styleList, count, paint);
@@ -161,44 +222,51 @@ class PathSentence extends State<MyPainter> {
             ..moveTo(p1.dx, p1.dy)
             ..lineTo(p2.dx, p2.dy));
 
-        angle = 0;
+        angle = radians(180);
+        //print(scale);
       }
 
       if (current[0] == "+") {
-        angle = angle + radians(180) + radians(double.parse(current[1]));
+        angle = angle + double.parse(current[1]);
 
         // print("new angle: " + degrees(angle).toString());
         // print("\n");
       }
-      //
-      // newVector = locationVector(p1, p2);
-      // newVector = scaleVector(newVector, oldScale, false);
-      // newVector = scaleVector(newVector, scale, true);
-      // newVector = turnVector(newVector, angle);
-      // newVector = translateVector(newVector, p2);
-      //
-      // oldScale = scale;
-      //
-      // paths
-      //   ..add(Path()
-      //     ..moveTo(p1.dx, p1.dy)
-      //     ..lineTo(p2.dx, p2.dy));
-      //
-      // // print(newVector);
-      // // newVector = vector(p1, newVector);
-      // // newVector = newVector * 0.5;
-      // // newVector = translateVector(newVector, p2);
-      // // print(newVector);
-      // // newVector = scaleVector(newVector, 1.1, false);
-      // // angle = angle - radians(1);
-      //
-      // p1 = p2;
-      // p2 = newVector;
+      if (current[0] == "-") {
+        angle -= double.parse(current[1]);
+        //print(degrees(angle));
+
+        //
+        // newVector = locationVector(p1, p2);
+        // newVector = scaleVector(newVector, oldScale, false);
+        // newVector = scaleVector(newVector, scale, true);
+        // newVector = turnVector(newVector, angle);
+        // newVector = translateVector(newVector, p2);
+        //
+        // oldScale = scale;
+        //
+        // paths
+        //   ..add(Path()
+        //     ..moveTo(p1.dx, p1.dy)
+        //     ..lineTo(p2.dx, p2.dy));
+        //
+        // // print(newVector);
+        // // newVector = vector(p1, newVector);
+        // // newVector = newVector * 0.5;
+        // // newVector = translateVector(newVector, p2);
+        // // print(newVector);
+        // // newVector = scaleVector(newVector, 1.1, false);
+        // // angle = angle - radians(1);
+        //
+        // p1 = p2;
+        // p2 = newVector;
+      }
     }
     // if (paths.isEmpty) return paths..add(Path()..moveTo(0, 0));
 
     //print("Path length: " + paths.length.toString());
     //print(paths);
+
     return paths;
   }
 }
