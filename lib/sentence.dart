@@ -16,14 +16,51 @@ generateList() {
   if (oneTimeShot) {
     sentenceList.clear();
 
-    for (int i = 0; i <= 2000; i++) {
-      sentenceList.add(["F", (50 + rnd.nextInt(100)).toString()]);
-      sentenceList.add(["paint", "black"]);
-      sentenceList.add(["+", (0 + rnd.nextInt(180)).toString()]);
+    for (int i = 0; i < 20; i++) {
+      //sentenceList.add(["+", "45"]);
+      //sentenceList.add(["paint", "yellow"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "45"]);
+
       sentenceList.add(["paint", "green"]);
-      sentenceList.add(["F", (50 + rnd.nextInt(100)).toString()]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "45"]);
+
+      sentenceList.add(["paint", "black"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "45"]);
+
+      sentenceList.add(["paint", "red"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "45"]);
+
       sentenceList.add(["paint", "yellow"]);
-      sentenceList.add(["+", (0 + rnd.nextInt(180)).toString()]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "-45"]);
+
+      //sentenceList.add(["paint", "green"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "-45"]);
+
+      //sentenceList.add(["paint", "black"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "-45"]);
+
+      sentenceList.add(["paint", "red"]);
+      sentenceList.add(["F", "100"]);
+      sentenceList.add(["+", "-45"]);
+      sentenceList.add(["+", "-15"]);
+      // sentenceList.add(["paint", "black"]);
+      // sentenceList.add(["F", (50 + rnd.nextInt(100)).toString()]);
+      // sentenceList.add(["+", (0 + rnd.nextInt(360)).toString()]);
+      //
+      // sentenceList.add(["paint", "green"]);
+      // sentenceList.add(["F", (50 + rnd.nextInt(100)).toString()]);
+      // sentenceList.add(["+", (0 + rnd.nextInt(360)).toString()]);
+      //
+      // sentenceList.add(["paint", "yellow"]);
+      // sentenceList.add(["F", (50 + rnd.nextInt(100)).toString()]);
+      // sentenceList.add(["+", (0 + rnd.nextInt(360)).toString()]);
     }
     oneTimeShot = false;
   }
