@@ -5,12 +5,13 @@ import 'package:vector_math/vector_math_64.dart' show radians;
 
 import 'package:turtle_on_fire/main.dart';
 import 'package:turtle_on_fire/sentence.dart';
+import 'package:turtle_on_fire/coder.dart';
 
 Random rnd = new Random();
 
 class PathSentence extends State<MyPainter> {
   bool start = true;
-  bool run = false; // Start when programm starts?
+  bool run = false; // Start when program starts?
   List<Path> pattern = [Path()..moveTo(0, 0)];
 
   PaintingStyle lineStyle = PaintingStyle.stroke;
@@ -56,6 +57,7 @@ class PathSentence extends State<MyPainter> {
                   if (this.run) {
                     sentenceList = generateList();
                     this.pattern = createPattern();
+                    generateWidgetList();
                     iteration++;
                     speed += 10;
                   }
@@ -114,7 +116,8 @@ class PathSentence extends State<MyPainter> {
                             // width: size,
                             //height: size,
                           ))
-                        : Container(),
+                        // Image.asset('circle.png',)
+                        : Container()
                   ]))),
         ));
   }
@@ -171,7 +174,6 @@ class PathSentence extends State<MyPainter> {
       if ((current[0] == "paint") || (current[0] == "size")) {
         style = current[1];
 
-        //print(i.toString() + ".te Zeile");
       }
 
       if (current[0] == "F") {
@@ -198,7 +200,7 @@ class PathSentence extends State<MyPainter> {
         //     scale.toString() +
         //     " " +
         //     counter.toString() +
-        //     ". Linie");
+        //     ". Line");
         // //print("angle:     " + degrees(angle).toString());
         // print("scale:     " + scale.toString());
         // print("oldScale:  " + oldScale.toString());
@@ -282,7 +284,6 @@ locationVector(Offset p1, Offset p2) {
     double y = p1.dy - p2.dy;
     return y;
   }
-
   return Offset(vectorX(p1, p2), vectorY(p1, p2));
 }
 
@@ -290,11 +291,9 @@ turnVector(Offset locationVector, double angle) {
   rotateX(locationVector, angle) {
     return (locationVector.dx * cos(angle) - locationVector.dy * sin(angle));
   }
-
   rotateY(vector, angle) {
     return (vector.dx * sin(angle) + vector.dy * cos(angle));
   }
-
   return Offset(rotateX(locationVector, angle), rotateY(locationVector, angle));
 }
 

@@ -1,3 +1,5 @@
+// flutter clean && flutter build appbundle --release
+
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 import 'dart:math';
@@ -90,7 +92,7 @@ class _MyPainter extends State<MyPainter> {
         (this.start)
             ? Expanded(
                 child: AnimatedDrawing.paths(
-                  this.metatron,
+                this.metatron,
                 paints: List<Paint>.generate(this.metatron.length, colorize),
                 run: this.run,
                 duration: new Duration(seconds: 15),

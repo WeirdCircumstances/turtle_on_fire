@@ -2,15 +2,11 @@
 // Animated List
 
 import 'package:flutter/material.dart';
-
 import 'package:turtle_on_fire/sentence.dart';
 
 class Coder extends StatelessWidget {
 
   List<CodeLine> sentenceWidgetList = generateWidgetList();
-
-  //List<CodeLine> sentenceList;
-
   Coder(this.sentenceWidgetList);
 
 //  marked as immutable, StatefulWidget and the following code should fix that (later)
@@ -28,7 +24,6 @@ class Coder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final title = 'Coder';
-
     return MaterialApp(
       //title: title,
       debugShowCheckedModeBanner: false,
