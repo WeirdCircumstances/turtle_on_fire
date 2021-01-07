@@ -5,7 +5,7 @@ Turtle in flutter and dart
 **_Cross platform and super cool_**
 
 __This is still WIP, so no guarantee this will work for you too!__  
--> not even alpha state
+-> not even alpha state  
 [Test it](https://play.google.com/store/apps/details?id=de.colony47.fire.turtle_on_fire) on Google Play Store
 
 Idea is to use the Lindenmayer System to calculate sentences and from there patterns.  
